@@ -1,17 +1,21 @@
 using {disquera as my} from '../db/schema';
 
 service disqueraService {
-   /*  @cds.redirection.target */
-    entity Musicians       as projection on my.Musicians;
+   @cds.redirection.target: true
+    entity Musicians       as
+        select from my.Musicians {
+            ID,
+            first_name,
+            last_name
+        };
 
- /*    entity Musicians_Bands as
+    entity Musicians_Bands as
         select from my.Musicians_Bands {
             band.name                                   as band_name,
             band.records.name                           as record_name,
             band.records.amount                         as record_amount,
             band.records.distribution.distribution.name as distribution_name,
-            musicians : redirected to Musicians
-        }; */
+        };
 
     entity Sessions        as
         select from my.Sessions {
