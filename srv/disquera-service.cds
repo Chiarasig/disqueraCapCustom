@@ -38,7 +38,6 @@ service disqueraService {
 
     action CreateMusicians(orders : array of Musicians);
     action DeleteMusicians (value: array of UUID);
-    
-    function QueryMusicianByID(ID: UUID) returns array of Musicians;
+    function GetMusicianByID(ID: UUID) returns array of Musicians;
 
 }
