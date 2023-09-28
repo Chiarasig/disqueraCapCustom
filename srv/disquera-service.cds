@@ -32,8 +32,8 @@ service disqueraService {
             created desc
         limit 1; 
 
-    action CrearMusicos(orders : array of Musicians);
+    action CreateMusicians(orders : array of Musicians);
     action DeleteMusicians (value: array of UUID);
-    function ConsultaMusicoPorID(ID: UUID) returns array of Musicians;
+    function QueryMusicianByID(ID: UUID) returns array of Musicians;
 
 }

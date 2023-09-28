@@ -12,10 +12,10 @@ module.exports = cds.service.impl (async function() {
         }
     });
 
-    this.on('CrearMusicos', async (req) => {
+    this.on('CreateMusicians', async (req) => {
         try {
             const result = await INSERT.into(Musicians, req.data.orders)
-            return console.log("se creó el músico correctamente", result)
+            return console.log("the musician was created correctly", result)
         } catch (error) {
             console.log(error)
         }
@@ -23,38 +23,35 @@ module.exports = cds.service.impl (async function() {
 
     this.on('DeleteMusicians', async (req) => {
         const ID = req.data.value;
-        console.log(req.data.value)
         try {
             const musicians = await SELECT.from(Musicians).columns('first_name', 'last_name').where({ ID: ID });
-            console.log(musicians, "musicians")
             if (musicians){
                 await DELETE.from(Musicians, {ID});
-                console.log("acá")
                 musicians.forEach(musician => {
-                    console.log(`Músico eliminado con Nombre: ${musician.first_name} ${musician.last_name}`);
+                    console.log(`Removed Musician with Name: ${musician.first_name} ${musician.last_name}`);
                 });
             }
         } catch (error) {
             console.error(error);
-            return { success: false, message: 'Error al eliminar músicos' };
+            return { success: false, message: 'Error when deleting musicians' };
         }
     }); 
 
-    this.on('ConsultaMusicoPorID', async (req) => {
+    this.on('QueryMusicianByID', async (req) => {
         console.log(req.data)
         const { ID } = req.data;
         try {
             const musicians = await SELECT.from(Musicians).columns('first_name', 'last_name').where({ ID: ID });
             
             if (musicians.length > 0) {
-                console.log("se encontró el músico")
+                console.log("the musician was found")
                 return musicians;
             } else {
-                return { error: 'Músico no encontrado' };
+                return { error: 'the musician was not found' };
             }
         } catch (error) {
             console.error(error);
-            return { error: 'Error al consultar el músico' };
+            return { error: 'Error when consulting the musician' };
         }
     });    
 });
