@@ -1,7 +1,7 @@
 const cds = require('@sap/cds');
 
 module.exports = cds.service.impl (async function() {
-    let { Musicians } = this.entities;
+    let { Musicians, Sessions } = this.entities;
 
     this.after('READ', 'Sessions', (req) => {
         for (let i = 0; i < req.length; i++) {
@@ -11,6 +11,34 @@ module.exports = cds.service.impl (async function() {
             }
         }
     });
+
+    this.before('CREATE', Sessions, (req) => {
+        const {hours} = req.data
+        try {
+        if (req.data.hours >= 6) {
+                req.data.hasFreeHours = true;
+            }
+        console.log("se creó la session")
+        } catch (error) {
+            console.log(error)
+        }
+    });
+
+    this.before('UPDATE', Sessions, async (req) => {
+        const { ID, hours } = req.data;
+        console.log('hours', hours);
+        try {
+            if (hours >= 6) {
+                req.data.hasFreeHours = true;
+                req.data.hours = hours + 2;
+            } else if (hours < 6) {
+                req.data.hasFreeHours = false;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+    
 
     this.on('CreateMusicians', async (req) => {
         try {

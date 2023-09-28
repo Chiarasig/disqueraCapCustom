@@ -32,12 +32,13 @@ service disqueraService {
             modifiedAt,
             modifiedBy
         }
-        order by
+        /* order by
             created desc
-        limit 1; 
+        limit 1 */; 
 
     action CreateMusicians(orders : array of Musicians);
     action DeleteMusicians (value: array of UUID);
+    
     function QueryMusicianByID(ID: UUID) returns array of Musicians;
 
 }
